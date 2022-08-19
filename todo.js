@@ -3,12 +3,14 @@ const todoList = document.querySelector('[data-container-task]');
 const btnAdd = document.querySelector('[data-btn-add]');
 const btnDelete = document.querySelector('[data-btn-delete]');
 const input = document.querySelector('[data-input-add]');
+const LOCAL_STORAGE_KEY = 'todoList';
 
 let toDo = [
     {id:1, text: 'Create to-do app',},
     {id:2, text: 'Do housework'},
     {id:3, text: 'Learn JS'},
 ]
+
 btnAdd.addEventListener('click', ()=> {
     const text = input.value.trim();
     if (text) {
@@ -22,6 +24,9 @@ btnAdd.addEventListener('click', ()=> {
     input.focus();
     render();
 
+})
+document.querySelector('[data-btn-delete]').addEventListener('click', () => {
+    localStorage.clear()
 })
 const todoDate = (
     year = new Date().getFullYear(),
@@ -57,6 +62,18 @@ function appendTodo() {
         toDo.forEach(el => {
             const newTask = CreateTodoItem(el.id,el.text,el.date);
             todoList.append(newTask);
+        })
+        btnAdd.addEventListener ('click', () => {
+            localStorage.setItem('todoList', JSON.stringify(toDo))
+        });
+        
+    }
+}
+function showElementsFromStorage() {
+    const storageList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    if (storageList) {
+        storageList.forEach(el => {
+            todoList.insertAdjacentHTML('beforeend',)
         })
     }
 }
